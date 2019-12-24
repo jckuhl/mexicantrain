@@ -4,7 +4,6 @@ import random from '../../utilities/random';
 import Bonepile from './bonepile';
 
 export default class Boneyard extends Bonepile {
-    private static readonly MAX_BONES = 169;
 
     constructor() {
         super();

@@ -1,7 +1,8 @@
 import Domino from './domino';
-import Bonepile from './bonepile';
+import BoneArray from './bonepile';
 
-export default class Hand extends Bonepile {
+export default class Hand extends BoneArray {
+
     public get score(): number {
         let sum = 0;
         this.bones.forEach(bone => sum += bone.score)

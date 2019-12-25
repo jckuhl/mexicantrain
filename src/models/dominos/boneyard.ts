@@ -1,9 +1,13 @@
 import Domino from './domino';
 import Hand from './hand';
 import random from '../../utilities/random';
-import Bonepile from './bonepile';
+import BoneArray from './bonepile';
 
-export default class Boneyard extends Bonepile {
+/**
+ * Represents a pile of dominos (the Boneyard) players draw from
+ * @extends BoneArray
+ */
+export default class Boneyard extends BoneArray {
 
     constructor() {
         super();
@@ -15,6 +19,10 @@ export default class Boneyard extends Bonepile {
         }
     }
 
+    /**
+     * Draws a bone from the Boneyard, removes it, and returns it
+     * @returns the domino drawn from Boneyard
+     */
     public drawBone(): Domino {
         const index = random(this.bones.length);
         const domino = this.bones[index];

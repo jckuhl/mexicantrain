@@ -40,6 +40,10 @@ const Divider = styled.div`
     vertical-align: middle;
 `;
 
+/**
+ * A React Component representing a single domino
+ * @param props 
+ */
 export default function Bone({ domino, angle } : {domino: Domino, angle?: Rotation}) {
     type PipInfo = { pips: number[], color?: string }
     const pipArray: { [key: number]: PipInfo} = {
@@ -58,6 +62,11 @@ export default function Bone({ domino, angle } : {domino: Domino, angle?: Rotati
         12: { pips: [0,1,2,3,4,5,6,7,8,9,10,11], color: 'grey' },
     }
 
+    /**
+     * Populates a JSX.Element array with <Pip> or <Spacer> components
+     * @param dominoValue 
+     * @returns JSX.Element array
+     */
     function populatePips(dominoValue:number): JSX.Element[] {
         const pips: JSX.Element[] = [];
         for(let i = 0; i < (dominoValue > 9 ? 12 : 9); i++) {

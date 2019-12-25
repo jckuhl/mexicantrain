@@ -1,14 +1,9 @@
 import React from 'react';
-import Boneyard from './models/dominos/boneyard';
-import Bone from './components/Domino/Bone';
-import Plus from './components/Game/Plus';
-import Rotation from './components/Domino/Angle.enum';
+import PlayerHand from './components/Hand/PlayerHand';
+import Player from './models/player/player';
 
 function App() {
-    const pile = new Boneyard();
-    return <div>
-        { pile.map((domino) => <Bone domino={domino} />)}
-    </div>
+    return <PlayerHand player={new Player("Scott")}></PlayerHand>
 }
 
 export default App;

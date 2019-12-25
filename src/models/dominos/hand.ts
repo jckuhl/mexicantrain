@@ -7,10 +7,6 @@ export default class Hand extends Bonepile {
         this.bones.forEach(bone => sum += bone.score)
         return sum;
     }
-    
-    public get size(): number {
-        return this.bones.length;
-    }
 
     constructor(bones: Domino[]) {
         super();

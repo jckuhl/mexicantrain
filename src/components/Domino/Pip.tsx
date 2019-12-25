@@ -8,5 +8,5 @@ export default styled.div`
     height: ${(props:PipProps) => props.size ? props.size : '10px'};
     border: none;
     border-radius: 50%;
-    content: '';
+    margin: auto;
 `;

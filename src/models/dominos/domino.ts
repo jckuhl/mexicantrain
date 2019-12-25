@@ -1,7 +1,6 @@
 export default class Domino {
     public static readonly DOUBLE_BLANK_SCORE = 50;
     public score: number;
-
     
     public get isDouble(): boolean {
         return this.left === this.right;
@@ -10,8 +9,7 @@ export default class Domino {
     constructor(public left: number, public right: number) {
         if(this.isDouble && this.left === 0) {
             this.score = Domino.DOUBLE_BLANK_SCORE;
-        }
-        else {
+        } else {
             this.score = this.left + this.right;
         }
     }

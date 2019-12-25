@@ -7,8 +7,9 @@ export default class Boneyard extends Bonepile {
 
     constructor() {
         super();
+        //TODO: This allows for duplicate bones
         for(let i = 0; i < 13; i++) {
-            for(let j = 0; j < 13; j++) {
+            for(let j = i; j < 13; j++) {
                 const domino = new Domino(i,j);
                 this.bones.push(domino);
             }

@@ -2,6 +2,10 @@ import Domino from './domino';
 
 export default abstract class Bonepile {
     protected bones: Domino[] = [];
+    
+    public get size(): number {
+        return this.bones.length;
+    }
 
     public remove(domino:Domino): Domino[] {
         const index = this.bones.findIndex(bone => bone.equals(domino));

@@ -2,9 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import Domino from '../../models/dominos/domino';
 import Pip from './Pip';
+import Rotation from './Angle.enum';
 
 type PipGridProps = { size: number }
-
+type DominoPieceProps = { angle?: Rotation }
 
 const DominoPiece = styled.div`
     border: 2px solid black;
@@ -12,6 +13,9 @@ const DominoPiece = styled.div`
     width: 100px;
     height: 50px;
     display: flex;
+    align-items: center;
+    background-color: white;
+    transform: ${(props: DominoPieceProps) => props.angle ? 'rotate(' + props.angle + ')' : 'none'};
 `;
 
 const PipGrid = styled.div`
@@ -26,32 +30,39 @@ const PipGrid = styled.div`
 const Spacer = styled.div`
     width: 10px;
     height: 10px;
-    margin: -1px -1px;
-    padding: -1px -1px;
 `;
 
-export default function Bone({ domino } : {domino: Domino}) {
-    const pipArray: { [key: number]: number[]} = {
-        0: [],
-        1: [4],
-        2: [1, 3],
-        3: [2, 5, 8],
-        4: [],
-        5: [],
-        6: [],
-        7: [],
-        8: [],
-        9: [],
-        10: [],
-        11: [],
-        12: [],
+const Divider = styled.div`
+    height: 45px;
+    border: none;
+    border-right: 2px solid black;
+    margin: -1px;
+    vertical-align: middle;
+`;
+
+export default function Bone({ domino, angle } : {domino: Domino, angle?: Rotation}) {
+    type PipInfo = { pips: number[], color?: string }
+    const pipArray: { [key: number]: PipInfo} = {
+        0: { pips: [] },
+        1: { pips: [4], color: 'cyan'},
+        2: { pips: [0, 8], color: 'green'},
+        3: { pips: [0, 4, 8], color: 'magenta' },
+        4: { pips: [0,2,6,8], color: 'grey' },
+        5: { pips: [0,2,4,6,8], color: 'blue' },
+        6: { pips: [0,1,2,6,7,8], color: 'goldenrod' },
+        7: { pips: [0,1,2,4,6,7,8], color: 'blue' },
+        8: { pips: [0,1,2,3,5,6,7,8], color: 'green' },
+        9: { pips: [0,1,2,3,4,5,6,7,8], color: 'purple' },
+        10: { pips: [0,1,2,3,4,7,8,9,10,11], color: 'orange' },
+        11: { pips: [0,1,2,3,4,5,7,8,9,10,11], color: 'black' },
+        12: { pips: [0,1,2,3,4,5,6,7,8,9,10,11], color: 'grey' },
     }
 
     function populatePips(dominoValue:number): JSX.Element[] {
         const pips: JSX.Element[] = [];
         for(let i = 0; i < (dominoValue > 9 ? 12 : 9); i++) {
-            if(pipArray[dominoValue].includes(i)) {
-                pips.push(<Pip key={i}/>)
+            if(pipArray[dominoValue].pips.includes(i)) {
+                pips.push(<Pip key={i} color={pipArray[dominoValue].color}/>)
             } else {
                 pips.push(<Spacer key={i}/>)
             }
@@ -62,10 +73,11 @@ export default function Bone({ domino } : {domino: Domino}) {
     const leftPips = populatePips(domino.left);
     const rightPips = populatePips(domino.right);
 
-    return <DominoPiece>
+    return <DominoPiece angle={angle}>
         <PipGrid size={domino.left}>
             {leftPips}
         </PipGrid>
+        <Divider/>
         <PipGrid size={domino.right}>
             {rightPips}
         </PipGrid>

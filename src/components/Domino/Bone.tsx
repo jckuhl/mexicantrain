@@ -5,9 +5,9 @@ import Pip from './Pip';
 import Rotation from './Angle.enum';
 
 type PipGridProps = { size: number }
-type DominoPieceProps = { angle?: Rotation }
+type DominoContainerProps = { angle?: Rotation }
 
-const DominoPiece = styled.div`
+const DominoContainer = styled.div`
     border: 2px solid black;
     border-radius: 10px;
     width: 100px;
@@ -15,7 +15,7 @@ const DominoPiece = styled.div`
     display: flex;
     align-items: center;
     background-color: white;
-    transform: ${(props: DominoPieceProps) => props.angle ? 'rotate(' + props.angle + ')' : 'none'};
+    transform: ${(props: DominoContainerProps) => props.angle ? 'rotate(' + props.angle + ')' : 'none'};
 `;
 
 const PipGrid = styled.div`
@@ -73,13 +73,15 @@ export default function Bone({ domino, angle } : {domino: Domino, angle?: Rotati
     const leftPips = populatePips(domino.left);
     const rightPips = populatePips(domino.right);
 
-    return <DominoPiece angle={angle}>
-        <PipGrid size={domino.left}>
-            {leftPips}
-        </PipGrid>
-        <Divider/>
-        <PipGrid size={domino.right}>
-            {rightPips}
-        </PipGrid>
-    </DominoPiece>
+    return (
+        <DominoContainer angle={angle}>
+            <PipGrid size={domino.left}>
+                {leftPips}
+            </PipGrid>
+            <Divider/>
+            <PipGrid size={domino.right}>
+                {rightPips}
+            </PipGrid>
+        </DominoContainer>
+    );
 } 

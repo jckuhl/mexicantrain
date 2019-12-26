@@ -5,18 +5,22 @@ import Boneyard from '../../models/dominos/boneyard';
 import Bone from '../Domino/Bone';
 import Rotation from '../Domino/Angle.enum';
 import FlexContainer from '../Shared/FlexContainer';
+import Domino from '../../models/dominos/domino';
 
-type PlayerHandProps = { player: Player };
+type PlayerHandProps = { player: Player, boneyard: Boneyard };
 
-function drawFromBoneyard(boneyard: Boneyard, player: Player): void | undefined {
-    player.hand?.add(boneyard.drawBone());
-}
 
-export default function PlayerHand({ player }: PlayerHandProps) {
-    const [boneyard, setBoneyard] = useState(new Boneyard());   // this line to be removed and boneyard handled globally
-    const [hand, setHand] = useState(boneyard.drawHand(12));
-    const bones = hand.map(bone => <Bone domino={bone} angle={Rotation.UP} />);
+
+export default function PlayerHand({ player, boneyard }: PlayerHandProps) {
+    let [hand, setHand] = useState<Hand>(boneyard.drawHand(12));
     player.hand = hand;
+
+    function drawFromBoneyard(boneyard: Boneyard, player: Player): void  {
+        if(!player.hand) throw new Error('invalid state, player.hand undefined');
+        player.hand.add(boneyard.drawBone());
+        setHand(new Hand([ ...player.hand.map(bone => bone) ]));
+    }
+
     return (
         <React.Fragment>
             <div>
@@ -25,7 +29,7 @@ export default function PlayerHand({ player }: PlayerHandProps) {
             </div>
             <button onClick={()=> drawFromBoneyard(boneyard, player)}>Draw Bone</button>
             <FlexContainer>
-                {bones}
+                {player.hand.map(bone => <Bone domino={bone} angle={Rotation.UP} />)}
             </FlexContainer>
         </React.Fragment>
     )

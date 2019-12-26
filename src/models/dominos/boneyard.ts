@@ -24,6 +24,7 @@ export default class Boneyard extends BoneArray {
      * @returns the domino drawn from Boneyard
      */
     public drawBone(): Domino {
+        //if(this.isEmpty) return null;
         const index = random(this.bones.length);
         const domino = this.bones[index];
         this.bones = this.remove(domino);
@@ -31,9 +32,12 @@ export default class Boneyard extends BoneArray {
     }
 
     public drawHand(amt: number): Hand {
+        //if(this.isEmpty) return null;
         const dominoes: Domino[] = [];
         while(dominoes.length < amt) {
-            dominoes.push(this.drawBone());
+            const bone = this.drawBone();
+            if(bone)
+                dominoes.push(bone);
         }
         return new Hand(dominoes);
     }

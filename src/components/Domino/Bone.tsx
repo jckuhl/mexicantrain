@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Domino from '../../models/dominos/domino';
 import Pip from './Pip';
@@ -83,7 +83,7 @@ export default function Bone({ domino, angle } : {domino: Domino, angle?: Rotati
     const rightPips = populatePips(domino.right);
 
     return (
-        <DominoContainer angle={angle}>
+        <DominoContainer angle={angle} onClick={()=> null}>
             <PipGrid size={domino.left}>
                 {leftPips}
             </PipGrid>

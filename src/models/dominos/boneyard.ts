@@ -8,7 +8,7 @@ import BoneArray from './bonepile';
  * @extends BoneArray
  */
 export default class Boneyard extends BoneArray {
-
+    
     constructor() {
         super();
         for(let i = 0; i < 13; i++) {

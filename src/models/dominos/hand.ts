@@ -9,9 +9,9 @@ export default class Hand extends BoneArray {
         return sum;
     }
 
-    constructor(bones: Domino[]) {
+    constructor(bones?: Domino[]) {
         super();
-        this.bones = bones;
+        this.bones = bones ?? [];
     };
 
     public add(domino:Domino): void {

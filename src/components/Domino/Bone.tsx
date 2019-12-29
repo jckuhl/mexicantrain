@@ -5,7 +5,7 @@ import Pip from './Pip';
 import Rotation from './Angle.enum';
 
 type PipGridProps = { size: number }
-type DominoContainerProps = { angle?: Rotation }
+type DominoContainerProps = { angle?: Rotation, selected: boolean }
 
 const DominoContainer = styled.div`
     border: 2px solid black;
@@ -15,7 +15,9 @@ const DominoContainer = styled.div`
     display: flex;
     align-items: center;
     background-color: white;
-    transform: ${(props: DominoContainerProps) => props.angle ? 'rotate(' + props.angle + ')' : 'none'};
+    transform: ${(props: DominoContainerProps) => props.angle ? 'rotate(' + props.angle + ')' : Rotation.DEFAULT};
+    -webkit-box-shadow: ${(props: DominoContainerProps) => props.selected ? '0px 0px 16px 2px #000000' : 'none'}; 
+    box-shadow: ${(props: DominoContainerProps) => props.selected ? '0px 0px 16px 2px #000000' : 'none'};
 `;
 
 const PipGrid = styled.div`
@@ -40,27 +42,30 @@ const Divider = styled.div`
     vertical-align: middle;
 `;
 
+type PipInfo = { pips: number[], color?: string }
+const pipArray: { [key: number]: PipInfo} = {
+    0: { pips: [] },
+    1: { pips: [4], color: 'cyan'},
+    2: { pips: [0, 8], color: 'green'},
+    3: { pips: [0, 4, 8], color: 'magenta' },
+    4: { pips: [0,2,6,8], color: 'grey' },
+    5: { pips: [0,2,4,6,8], color: 'blue' },
+    6: { pips: [0,1,2,6,7,8], color: 'goldenrod' },
+    7: { pips: [0,1,2,4,6,7,8], color: 'blue' },
+    8: { pips: [0,1,2,3,5,6,7,8], color: 'green' },
+    9: { pips: [0,1,2,3,4,5,6,7,8], color: 'purple' },
+    10: { pips: [0,1,2,3,4,7,8,9,10,11], color: 'orange' },
+    11: { pips: [0,1,2,3,4,5,7,8,9,10,11], color: 'black' },
+    12: { pips: [0,1,2,3,4,5,6,7,8,9,10,11], color: 'grey' },
+}
+
 /**
  * A React Component representing a single domino
  * @param props 
  */
 export default function Bone({ domino, angle } : {domino: Domino, angle?: Rotation}) {
-    type PipInfo = { pips: number[], color?: string }
-    const pipArray: { [key: number]: PipInfo} = {
-        0: { pips: [] },
-        1: { pips: [4], color: 'cyan'},
-        2: { pips: [0, 8], color: 'green'},
-        3: { pips: [0, 4, 8], color: 'magenta' },
-        4: { pips: [0,2,6,8], color: 'grey' },
-        5: { pips: [0,2,4,6,8], color: 'blue' },
-        6: { pips: [0,1,2,6,7,8], color: 'goldenrod' },
-        7: { pips: [0,1,2,4,6,7,8], color: 'blue' },
-        8: { pips: [0,1,2,3,5,6,7,8], color: 'green' },
-        9: { pips: [0,1,2,3,4,5,6,7,8], color: 'purple' },
-        10: { pips: [0,1,2,3,4,7,8,9,10,11], color: 'orange' },
-        11: { pips: [0,1,2,3,4,5,7,8,9,10,11], color: 'black' },
-        12: { pips: [0,1,2,3,4,5,6,7,8,9,10,11], color: 'grey' },
-    }
+
+    const [selected, setSelecetd] = useState(false);
 
     /**
      * Populates a JSX.Element array with <Pip> or <Spacer> components
@@ -83,7 +88,7 @@ export default function Bone({ domino, angle } : {domino: Domino, angle?: Rotati
     const rightPips = populatePips(domino.right);
 
     return (
-        <DominoContainer angle={angle} onClick={()=> null}>
+        <DominoContainer angle={angle} onClick={()=> setSelecetd(selected => !selected)} selected={selected}>
             <PipGrid size={domino.left}>
                 {leftPips}
             </PipGrid>

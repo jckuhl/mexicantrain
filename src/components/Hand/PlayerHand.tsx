@@ -5,7 +5,6 @@ import Player from '../../models/player/player';
 import Boneyard from '../../models/dominos/boneyard';
 import Bone from '../Domino/Bone';
 import Rotation from '../Domino/Angle.enum';
-import FlexContainer from '../Shared/FlexContainer';
 
 type PlayerHandProps = { player: Player, boneyard: Boneyard };
 
@@ -23,26 +22,24 @@ const BoneGrid = styled.section`
 `;
 
 export default function PlayerHand({ player, boneyard }: PlayerHandProps) {
-    let [hand, setHand] = useState<Hand>(boneyard.drawHand(12));
+    let [hand, setHand] = useState<Hand>(()=> boneyard.drawHand(12));
     player.hand = hand;
     player.turn = true;
 
     function drawFromBoneyard(boneyard: Boneyard, player: Player): void  {
-        if(!player.hand) throw new Error('invalid state, player.hand undefined');
         player.hand.add(boneyard.drawBone());
         setHand(new Hand(player.hand.map(bone => bone)));
-        player.turn = false;
     }
 
     return (
         <React.Fragment>
             <div>
                 <p>{player.name}</p>
-                <p>{player.hand.score}</p>
+                <p>{player.score}</p>
             </div>
-            <button onClick={()=> drawFromBoneyard(boneyard, player)} disabled={!player.turn}>Draw Bone</button>
+            <button onClick={()=> drawFromBoneyard(boneyard, player)} disabled={!player.turn || boneyard.isEmpty}>Draw Bone</button>
             <BoneGrid>
-                {player.hand.map(bone => <Bone domino={bone} angle={Rotation.UP} />)}
+                {player.hand.map(bone => <Bone domino={bone} angle={Rotation.UP} key={bone.id}/>)}
             </BoneGrid>
         </React.Fragment>
     )

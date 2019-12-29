@@ -19,11 +19,12 @@ export default abstract class BoneArray {
 
     /**
      * Removes a domino from the set
-     * @param domino 
+     * @param {Domino} domino 
      */
     public remove(domino:Domino): Domino[] {
         const index = this.bones.findIndex(bone => bone.equals(domino));
-        return this.bones.slice(0, index).concat(this.bones.slice(index+1));
+        return this.bones.filter(bone => !bone.equals(domino))
+        //return this.bones.slice(0, index).concat(this.bones.slice(index+1));
     }
 
     /**

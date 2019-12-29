@@ -64,7 +64,6 @@ export default class Train {
                 endPoints.push(currentNode);
             }
         }
-
         return endPoints;
     }
 } 

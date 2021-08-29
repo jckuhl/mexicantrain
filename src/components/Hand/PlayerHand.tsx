@@ -31,6 +31,23 @@ export default function PlayerHand({ player, boneyard }: PlayerHandProps) {
         setHand(new Hand(player.hand.map(bone => bone)));
     }
 
+    let bones = player.hand.map(bone => 
+        <Bone domino={bone} angle={Rotation.UP} key={bone.id} selected={bone.selected} clickEvent={()=> clickEvent(bone.id)} 
+    />)
+
+    function clickEvent(id: string) {
+        let dominoes = hand.map(domino => {
+            if(domino.id == id) {
+                domino.selected = !domino.selected;
+            } else {
+                domino.selected = false;
+            }
+            return domino;
+        });
+        let newHand = new Hand(dominoes);
+        setHand(newHand);
+    }
+
     return (
         <React.Fragment>
             <div>
@@ -39,7 +56,7 @@ export default function PlayerHand({ player, boneyard }: PlayerHandProps) {
             </div>
             <button onClick={()=> drawFromBoneyard(boneyard, player)} disabled={!player.turn || boneyard.isEmpty}>Draw Bone</button>
             <BoneGrid>
-                {player.hand.map(bone => <Bone domino={bone} angle={Rotation.UP} key={bone.id}/>)}
+                {bones}
             </BoneGrid>
         </React.Fragment>
     )

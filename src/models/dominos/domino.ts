@@ -1,6 +1,7 @@
 export default class Domino {
     public static readonly DOUBLE_BLANK_SCORE = 50;
     public score: number;
+    public selected: boolean = false;
 
     //in the context of a boneyard where every domino is unique, this id is unique
     public id: string = '';

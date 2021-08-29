@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Domino from '../../models/dominos/domino';
 import Pip from './Pip';
 import Rotation from './Angle.enum';
+import Hand from '../../models/dominos/hand';
 
 type PipGridProps = { size: number }
 type DominoContainerProps = { angle?: Rotation, selected: boolean }
@@ -63,9 +64,9 @@ const pipArray: { [key: number]: PipInfo} = {
  * A React Component representing a single domino
  * @param props 
  */
-export default function Bone({ domino, angle } : {domino: Domino, angle?: Rotation}) {
+export default function Bone({ domino, angle, clickEvent, selected } : {domino: Domino, angle?: Rotation, selected: boolean, clickEvent: any}) {
 
-    const [selected, setSelecetd] = useState(false);
+    //const [selected, setSelected] = useState(false);
 
     /**
      * Populates a JSX.Element array with <Pip> or <Spacer> components
@@ -88,7 +89,7 @@ export default function Bone({ domino, angle } : {domino: Domino, angle?: Rotati
     const rightPips = populatePips(domino.right);
 
     return (
-        <DominoContainer angle={angle} onClick={()=> setSelecetd(selected => !selected)} selected={selected}>
+        <DominoContainer angle={angle} onClick={ ()=> clickEvent() } selected={selected}>
             <PipGrid size={domino.left}>
                 {leftPips}
             </PipGrid>

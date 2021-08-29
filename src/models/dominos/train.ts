@@ -2,17 +2,20 @@ import Domino from './domino';
 import remove from '../../utilities/remove';
 
 class Node {
-    public previous: Node | undefined;
     public next: Node | Node[] | undefined;
+    public previous: Node | undefined;
+    public isDouble: boolean;
 
-    constructor(public domino: Domino) {}
+    public constructor(public domino: Domino) {
+        this.isDouble = domino.isDouble;
+    }
 }
 
 export default class Train {
     public head: Node | undefined;
 
-    constructor(node: Node) {
-        this.head = node;
+    constructor(domino: Domino) {
+        this.head = new Node(domino);
         this.head.previous = undefined;
     }
 
@@ -24,18 +27,23 @@ export default class Train {
         return currentNode === this.head;
     }
 
-    public add(endpoint: Node, node: Node): boolean {
+    public add(endpoint: Node, node: Node, isChickenLeg:boolean = false): boolean {
         if(!this.nodeIsInTrain(endpoint)) {
             throw new Error('Invalid endpoint, endpoint not in train');
         }
-        if(endpoint.next) {
-            if(Array.isArray(endpoint.next)) {
-                if(endpoint.next.length != 2) {
-                    endpoint.next.push(node);
-                    node.previous = endpoint;
+        if((endpoint.next) && (!Array.isArray(endpoint.next))) {
+            throw new Error('Can not add, parent node is not endpoint');
+        } else {
+            if(node.isDouble) {
+                if(!endpoint.next) {
+                    endpoint.next = new Array() as Node[];
                     return true;
+                } else if(endpoint.next.length !== (isChickenLeg ? 3 : 2)) {
+                    endpoint.next.push(node);
+                    return true;
+                } else {
+                    throw new Error(`Node array is full, chicken leg: ${isChickenLeg}`);
                 }
-                return false;
             } else {
                 endpoint.next = node;
                 node.previous = endpoint;

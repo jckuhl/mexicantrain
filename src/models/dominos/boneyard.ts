@@ -23,10 +23,11 @@ export default class Boneyard extends BoneArray {
      * Draws a bone from the Boneyard, removes it, and returns it
      * @returns the domino drawn from Boneyard
      */
-    public drawBone(): Domino {
-        //if(this.isEmpty) return null;
-        const index = random(this.bones.length);
-        const domino = this.bones[index];
+    public drawBone(domino?: Domino): Domino {
+        if(!domino) {
+            const index = random(this.bones.length);
+            domino = this.bones[index];
+        }
         this.bones = this.remove(domino);
         return domino;
     }

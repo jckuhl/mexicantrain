@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { MouseEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Domino from '../../models/dominos/domino';
 import Pip from './Pip';
@@ -7,6 +7,7 @@ import Hand from '../../models/dominos/hand';
 
 type PipGridProps = { size: number }
 type DominoContainerProps = { angle?: Rotation, selected: boolean }
+type DominoTooltipProps = { top: string, left: string }
 
 const DominoContainer = styled.div`
     border: 2px solid black;
@@ -43,6 +44,16 @@ const Divider = styled.div`
     vertical-align: middle;
 `;
 
+const DominoToolTip = styled.div`
+    visibility: visible;
+    position: absolute;
+    z-index: 1000;
+    background: tomato;
+    outline: 1px solid black;
+    top: ${(props: DominoTooltipProps) => props.top};
+    left: ${(props: DominoTooltipProps) => props.left};
+`;
+
 type PipInfo = { pips: number[], color?: string }
 const pipArray: { [key: number]: PipInfo} = {
     0: { pips: [] },
@@ -64,9 +75,10 @@ const pipArray: { [key: number]: PipInfo} = {
  * A React Component representing a single domino
  * @param props 
  */
-export default function Bone({ domino, angle, clickEvent, selected } : {domino: Domino, angle?: Rotation, selected: boolean, clickEvent: any}) {
-
-    //const [selected, setSelected] = useState(false);
+type boneProps = {domino: Domino, angle?: Rotation, selected: boolean, clickEvent: any};
+export default function Bone({ domino, angle, clickEvent, selected } : boneProps) {
+    
+    const [client, setClient] = useState<{ top: string, left: string}>({ top: '0px', left: '0px'});
 
     /**
      * Populates a JSX.Element array with <Pip> or <Spacer> components
@@ -89,7 +101,7 @@ export default function Bone({ domino, angle, clickEvent, selected } : {domino: 
     const rightPips = populatePips(domino.right);
 
     return (
-        <DominoContainer angle={angle} onClick={ ()=> clickEvent() } selected={selected}>
+        <DominoContainer angle={angle} onClick={ ()=> clickEvent() } selected={selected} onMouseOver={(event)=> hoverBone(event as MouseEvent)}>
             <PipGrid size={domino.left}>
                 {leftPips}
             </PipGrid>

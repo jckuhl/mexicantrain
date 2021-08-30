@@ -8,13 +8,14 @@ import Player from "../models/player/player";
 
 export default function PlayerView({ player, players }: { player: Player, players: Player[]}) {
     let [boneyard, setBoneyard] = useState(new Boneyard())
+    let [round, setRound] = useState(12);
 
     function drawDouble(value: number) {
         return boneyard.drawBone(new Domino(value, value))
     }
 
     return <section>
-        <CenterPiece domino={drawDouble(12)}/>
+        <CenterPiece domino={drawDouble(round)}/>
         <PlayerHand player={new Player('Scott')} boneyard={boneyard}/>
     </section>
 }

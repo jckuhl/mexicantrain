@@ -101,7 +101,7 @@ export default function Bone({ domino, angle, clickEvent, selected } : boneProps
     const rightPips = populatePips(domino.right);
 
     return (
-        <DominoContainer angle={angle} onClick={ ()=> clickEvent() } selected={selected} onMouseOver={(event)=> hoverBone(event as MouseEvent)}>
+        <DominoContainer angle={angle} onClick={ ()=> clickEvent() } selected={selected} >
             <PipGrid size={domino.left}>
                 {leftPips}
             </PipGrid>
